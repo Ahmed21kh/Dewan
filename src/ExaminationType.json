@@ -1,0 +1,20 @@
+ 
+ {
+    "ExaminationType":
+    [
+        {
+         "id":1,
+         "examination_typ":"كشف جديد"
+        },
+        {
+         "id":2,
+         "examination_typ":"اعادة كشف"
+        },
+        {
+         "id":3,
+         "examination_typ":"متابعة"
+        }
+    ]
+
+
+ }

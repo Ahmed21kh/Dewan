@@ -1,0 +1,87 @@
+mat-card{
+    position: relative;
+    align-items: center;
+    background: rgb(223 226 228);
+    height: 100%;
+    /* border-bottom: 13px; */
+    /* border-radius: 16px; */
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+  }
+  .form-contaainer
+{
+
+  position: relative;
+  z-index: 99;
+  display: block;
+  max-width: 700px;
+  margin: auto;
+  margin-top: 92px !important;
+  background: #eceff1;
+  padding: 48px;
+  border-radius:16px ;
+
+}
+.center{
+  display: flex;
+  justify-content: center;
+}
+.margin-top{
+  margin-top: 16px;
+}
+.text-center
+{
+  text-align: center;
+}
+.sign-up-link{
+  font-size: 1.2rem;
+  margin-left: 8px;
+}
+.img{ 
+  position: relative;
+  margin:auto;
+  /* margin-left: 100px !important; */
+  display: block;
+  width: 130px;
+  height: 100px;
+  background: #eee; 
+  top: -100px;
+  border-radius: 50%;
+}
+/* @media(max-width:400px){
+  .img{
+    width:30% ;
+
+  }
+} */
+/* ::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-outline-gap {
+    width:50px !important;
+}
+.mat-form-field-appearance-outline .mat-form-field-outline-thick .mat-form-field-outline-start{
+    border-width: 2px;
+    width: 250px !important;
+} */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: #4f6466;
+}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0px 12px;
+    margin-bottom: 10px;
+    
+}
+::ng-deep.cdk-text-field-autofill-monitored:not(:-webkit-autofill) {
+  animation: cdk-text-field-autofill-end 0s 1ms;
+  padding: revert;
+  height: 32px !important;
+}
+::ng-deep .cdk-text-field-autofill-monitored:-webkit-autofill {
+  animation: cdk-text-field-autofill-start 0s 1ms;
+  padding: revert;
+  height: 32px !important;
+}
+::ng-deep .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  display: block;
+  padding: 8px 0 !important;
+  margin-top: -13px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

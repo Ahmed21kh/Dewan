@@ -1,0 +1,61 @@
+<mat-card>
+  <mat-card-content class=" ">
+      <div class="input-filter d-flex  pb-4 ">
+        <div class="input-group  mat-elevation-z5">
+          <div class="input-group-prepend ">
+            <span class="input-group-text  rounded-3xl" id="basic-addon1"> <i class='bx bx-search'></i> </span>
+          </div>
+          <input type="text" class="form-control text-right" placeholder=" ابحت عن اسم المريض او كود المريض" aria-label="Username" aria-describedby="basic-addon1" [(ngModel)]="Name" (keyup)="filter($event)">
+        </div>
+      </div>
+      <div class="col d-flex justify-center items-center "   >
+        <mat-spinner *ngIf="loading" class=" d-block " style="margin: 200px auto;"></mat-spinner>
+      </div>
+      <div class="content overflow-x-hidden overflow-scroll max-h-[630px]">
+        <h1 *ngIf="filteredData$.length==0&&loading==false" style="color:#4f6466 ;text-align: center;margin-top: 200px;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight: 400;">لايوجد كشوفات للمرضي</h1>
+        <div fxLayout="row wrap" class="   ">
+          <div  *ngFor="let num of filteredData$" data-aos="fade-up" class="">
+            <mat-card class=" mat-elevation-z5 mt-3 mr-3  float-right ">
+              <mat-card-content>
+                <div class="row">
+                  <div class="col-5 ">
+                    <div class="h2">
+                     <span> الاسم</span>
+                     <h1>{{num.name}}</h1>
+                    </div>
+
+                  </div>
+                  <div class="col-3">
+                    <div class="h2">
+                      <span>رقم التليفون</span>
+                      <h1>{{num.phone_number}}</h1>
+                    </div>
+
+                  </div>
+                  <div class="col-3 text-right">
+                    <div class="h2">
+                      <span>عدد الزيارات</span>
+                      <h1 class=" mr-5">{{num.visits}}</h1>
+                    </div>
+
+                  </div>
+                </div>
+                <button mat-raised-button  type="button"  class=" btns " (click)="viewHistory(num.patient_id)"  > التاريخ المرضي</button>
+                <!-- routerLink="/doctors/add-prescription" -->
+
+              </mat-card-content >
+            </mat-card>
+
+
+          </div>
+
+        </div>
+
+
+
+
+      </div>
+  </mat-card-content>
+</mat-card>
+
+

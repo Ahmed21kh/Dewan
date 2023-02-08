@@ -1,0 +1,126 @@
+<div class="title-card">
+  <i class="bx bxs-calendar text-4xl text-white float-right mr-2"></i>
+  <h1>الحجز</h1>
+</div>
+<mat-card class="mat-elevation-z5">
+  <ng-container *ngIf=" !register  ;else regist">
+    <mat-card-content *ngIf=" !sucsses  ;else success" >
+      <!-- <span>NewPatient</span> -->
+      <div class="row">
+        <div class="col">
+          <div class="h2">
+            <span>الاسم</span>
+            <h1>{{ showbookingForm.name }}</h1>
+          </div>
+          <div class="h2">
+            <span>نوع الكشف</span>
+            <h1>{{ showbookingForm.examination_type }}</h1>
+          </div>
+          <div class="h2">
+            <span>رقم الكشف</span>
+            <h1 class="mr-5">{{ showbookingForm.number }}</h1>
+          </div>
+        </div>
+        <div class="col text-right">
+          <div class="h2">
+            <span>العمر</span>
+            <h1 class="mr-3">{{ showbookingForm.age }}</h1>
+          </div>
+          <div class="h2">
+            <span>تاريخ الحجز</span>
+            <h1>{{ showbookingForm.date | date:'yyyy-MM-dd' }}</h1>
+          </div>
+          <div class="h2">
+            <span>محول من</span>
+            <h1 style="width:150%;">دكتور/ {{ showbookingForm.forward_by }}</h1>
+          </div>
+        </div>
+        <div class="col text-right">
+          <div class="h2">
+            <span>رقم التليفون</span>
+            <h1>{{ showbookingForm.phone_number }}</h1>
+          </div>
+          <div class="h2">
+            <span>سعر الحجز</span>
+            <h1 class="mr-3">{{ showbookingForm.price| currency:'ج':true }} </h1>
+          </div>
+          <div class="h2"></div>
+        </div>
+      </div>
+  
+        <button mat-raised-button class="btn float-left" (click)="addPatientAndExamin()">تأكيد وطباعة</button>
+        <button mat-button class="edit float-left"  (click)="sendToAddPatient()">
+          تعديل
+        </button>
+  
+    </mat-card-content>
+
+  </ng-container>
+  <ng-template #regist>
+    <mat-card-content *ngIf=" !sucsses  ;else success">
+      <div class="row">
+        <div class="col">
+          <div class="h2">
+            <span>الاسم</span>
+            <h1>{{ showbookingForm.name }}</h1>
+          </div>
+          <div class="h2">
+            <span>نوع الكشف</span>
+            <h1>{{ showbookingForm.examination_type }}</h1>
+          </div>
+          <div class="h2">
+            <span>رقم المريض</span>
+            <h1 class="mr-5">{{ showbookingForm.number }}</h1>
+          </div>
+        </div>
+        <div class="col text-right">
+          <div class="h2">
+            <span>العمر</span>
+            <h1 class="mr-3">{{ showbookingForm.age }}</h1>
+          </div>
+          <div class="h2">
+            <span>تاريخ الحجز</span>
+            <h1>{{ showbookingForm.date | date:'yyyy-MM-dd' }}</h1>
+          </div>
+          <div class="h2 w-full">
+            <span>محول من</span>
+            <h1 style="width:150%;">دكتور/ {{ showbookingForm.forward_by }}</h1>
+          </div>
+        </div>
+        <div class="col text-right">
+          <div class="h2">
+            <span>رقم التليفون</span>
+            <h1>{{ showbookingForm.phone_number }}</h1>
+          </div>
+          <div class="h2">
+            <span>سعر الحجز</span>
+            <h1 class="mr-3">{{ showbookingForm.price| currency:'ج':true }} </h1>
+          </div>
+          <div class="h2"></div>
+        </div>
+      </div>
+
+      <button mat-raised-button class="btn float-left" (click)="addExamin(patientId,showbookingForm)">تأكيد وطباعة</button>
+      <button mat-button class="edit float-left"   (click)="sendToRegisterPatient()">
+        تعديل
+      </button>
+
+     
+  
+    </mat-card-content>
+  </ng-template>
+  
+  <ng-template #success>
+    <mat-card-content style="display: flex; justify-content: center; align-items:center; ">
+      <div data-aos="fade-up" class=" m-auto  justify-center  pt-4  " style=" align-content:center; align-items:center; ">
+        <div class=" w-[200px] h-[200px]" style="background-color:#4f6466 ; border-radius: 50%; ">
+         <div class=" text-center text-white text-9xl d-flex justify-center" style="align-items: center; align-content:center;">
+          <i class='bx bx-check bx-2x mt-4' style="align-content:center;"></i>
+         </div>  
+        </div>
+        <h1 class=" text-2xl text-black text-center mt-4 " style="color:#4f6466 ; font-size: 30px; font-weight: 500; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">تم الحجز بنجاح</h1>
+      </div>
+    </mat-card-content>
+  </ng-template>
+  
+</mat-card>

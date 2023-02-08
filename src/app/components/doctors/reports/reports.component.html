@@ -1,0 +1,132 @@
+<mat-card>
+  <mat-card-content >
+    <div class="input-filter d-flex pb-4 mt-4">
+      <div class="input-group mat-elevation-z5">
+        <div class="input-group-prepend">
+          <span class="input-group-text rounded-3xl" id="basic-addon1">
+            <i class="bx bx-search"></i>
+          </span>
+        </div>
+        <input
+          type="text"
+          class="form-control text-right"
+          placeholder=" ابحت عن اسم المريض او كود المريض"
+          aria-label="Username"
+          aria-describedby="basic-addon1"
+          [(ngModel)]="Name"
+          (keyup)="filter($event)"
+        />
+      </div>
+
+      <div class="date-paker">
+        <span class="absolute top-1 mr-3 text-lg" style="color: #4f6466; font-size: 18px;">
+          اخترالوقت</span
+        >
+        <nz-date-picker class=" mat-elevation-z5" nzPlaceHolder="من" [nzSize]="size"  [(ngModel)]="dateFrom"
+        (ngModelChange)="filter($event)" ></nz-date-picker>
+        <nz-date-picker class=" mat-elevation-z5" nzPlaceHolder="الي" [nzSize]="size"  [(ngModel)]="dateTo"
+        (ngModelChange)="filter($event)" ></nz-date-picker>
+      </div>
+      <div>
+        <span
+          class="absolute top-2 mr-[-100px] text-md float-left"
+          style="color: #4f6466"
+          ><i style="font-size: 22px" class="bx bx-walk"></i> عدد الزيارات</span
+        >
+        <span
+          class="absolute top-3 mr-5 d-flex float-right"
+          style="color: #4f6466; font-size: 15px"
+          ><i
+            style="font-size: 18px"
+            class="fa fa-user ml-2"
+            aria-hidden="true"
+          ></i>
+          عدد المرضي</span
+        >
+        <div class="countity text-center mat-elevation-z5">
+          <span> {{patientQuantity.number_Of_Patients}} مريض </span> | <span> {{patientQuantity.number_Of_Visits}} زيارة </span>
+        </div>
+      </div>
+      <div class="mr-5 cursor-pointer mt-[-8px]" (click)="downloadAllasExel()">
+        <img class="mr-3" src="assets/Icon simple-microsoftexcel.png" alt="" />
+        <span class="" style="color: #4f6466; font-size: 15px"
+          >تحميل<i class="fa fa-download" aria-hidden="true"></i
+        ></span>
+      </div>
+
+      <div class="mr-3 float-left d-flex p-0 top-0 mt-[-8px]">
+        <label
+          class="mr-5 float-left d-flex p-0"
+          nz-checkbox
+          [(ngModel)]="allChecked"
+          (ngModelChange)="updateAllChecked()"
+          [nzIndeterminate]="indeterminate"
+        >
+        </label>
+        <span
+          class="absolute float-left mr-4"
+          style="color: #4f6466; font-size: 15px; margin-top: 20px"
+        >
+          تحديدالكل
+        </span>
+      </div>
+    </div>
+    <div class="col">
+      <mat-spinner *ngIf="loading" class=" d-block " style="margin: 200px auto;"></mat-spinner>
+    </div>
+    <div class="content overflow-x-hidden  overflow-scroll max-h-[680px]">
+      <h1 *ngIf="filteredData$.length==0&&loading==false" style="color:#4f6466 ;text-align: center;margin-top: 200px;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight: 400;">لايوجد تقارير للمرضي</h1>
+      <div fxLayout="col wrap" class="m-2">
+        <div *ngFor="let num of filteredData$" class=" mb-2" data-aos="fade-up">
+
+          <mat-card class="mat-elevation-z5 mt-3 mr-3 float-right">
+            <mat-card-header class="title-card">
+              <div class="card-text text-right">
+                <h2>الاسم</h2>
+                <span>{{num.name}}</span>
+              </div>
+              <input type="checkbox" class="form-check-input mr-auto relative d-flex  left-10 h-3 " style="width: 50px;
+              height: 16px;" #checkBox (click)="addDiginosesId(num.diagnosis_id,checkBox)" [checked]="allChecked==true" >
+              <!-- <label class=" d-flex float-left left-0 mr-auto" nz-checkbox [(ngModel)]="checked"></label> -->
+              <!-- <nz-checkbox-group
+                class="d-flex ml-4 mr-auto"
+                [(ngModel)]="checkOptionsOne"
+                (ngModelChange)="updateSingleChecked()"
+              ></nz-checkbox-group> -->
+            </mat-card-header>
+            <mat-card-content>
+              <div class="row">
+                <div class="col-2 ">
+                  <div class="h2">
+                    <span> السن</span>
+                    <h1 class="mr-2">{{num.age}}</h1>
+                  </div>
+                </div>
+                <div class="col-5 text-right">
+                  <div class="h2">
+                    <span>محول من</span>
+                    <h1>دكتور {{num.forwardedBY}}</h1>
+                  </div>
+                </div>
+                <div class="col-5 text-right">
+                  <div class="h2">
+                    <span>محول الي </span>
+                    <h1>دكتور {{num.forwardTO}}</h1>
+                  </div>
+                </div>
+              </div>
+              <div class="diagonsis mat-elevation-z5">
+                <img class=" m-1" src="assets/Icon ionic-md-document.png" alt="" />
+                <span class="mr-3"> {{num.diagnosis_name}}</span>
+              </div>
+              <div class="comment mat-elevation-z5">
+                <img class=" m-1"  src="assets/Icon ionic-md-document.png" alt="" />
+                <span class="mr-3"> {{num.special_comment}}</span>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

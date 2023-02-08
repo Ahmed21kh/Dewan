@@ -1,0 +1,98 @@
+<mat-card>
+  <mat-card-content class=" ">
+      <div class="input-filter  pb-4  mt-4 ">
+        <div class="input-group  mat-elevation-z5">
+          <div class="input-group-prepend ">
+            <span class="input-group-text  rounded-3xl" id="basic-addon1"> <i class='bx bx-search '></i> </span>
+          </div>
+          <input  type="text" class="form-control text-right" [(ngModel)]="Name" placeholder=" ابحت عن اسم المريض او كود المريض" aria-label="Username" aria-describedby="basic-addon1" (keyup)="filter($event)" style=" font-size:16px;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          font-weight: 400;">
+        </div>
+        <nz-select class="mat-elevation-z5 w-[250px] mr-4 h-[39px] " style="color:#4f6466 ;border-radius:15px;background:#eee;text-decoration: rtl;text-align: right;font-size: 18px;align-items: center;"  nzAllowClear nzPlaceHolder="نوع الكشف" [(ngModel)]="selected" (ngModelChange)="filter($event)">
+          <nz-option nzLabel="كشف جديد" nzValue="كشف جديد"></nz-option>
+          <nz-option nzLabel="اعادة الكشف" nzValue="اعادة كشف"></nz-option>
+          <nz-option nzLabel="متابعة" nzValue="متابعة"></nz-option>
+        </nz-select>
+        <!-- <mat-select
+        type="text"
+        class=" form-control text-right mat-elevation-z5 "
+        placeholder="نوع الكشف"
+        [(ngModel)]="selected"
+        (ngModelChange)="filter($event)"
+
+        >
+        <mat-option class=" text-right" value="كشف جديد">كشف جديد</mat-option>
+        <mat-option class=" text-right" value="اعادة كشف"> اعادة كشف</mat-option>
+        <mat-option class=" text-right" value="متابعة">متابعة </mat-option>
+
+        </mat-select> -->
+          <!-- <input
+          class="date form-control mat-elevation-z5 w-[300px] mr-7"
+          placeholder="تاريخ الكشف"
+          [matDatepicker]="picker"
+        />
+        <mat-datepicker-toggle  matSuffix [for]="picker">
+          <mat-icon matDatepickerToggleIcon class="mat-18"> date_range</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker> -->
+
+        <nz-date-picker class=" mat-elevation-z5 mr-4 mt-1" nzPlaceHolder="تاريخ الكشف" [nzSize]="size" [(ngModel)]="date" (ngModelChange)="filter($event)"> <span nz-icon nzType="calendar" nzTheme="twotone"></span></nz-date-picker>
+      </div>
+      <div class="col d-flex justify-center items-center m-auto"  >
+        <mat-spinner *ngIf="loading" class=" d-block " style="margin: 200px auto;"></mat-spinner>
+      </div>
+      <div class="content ">
+        <h1 *ngIf="filteredData$.length==0&&loading==false" style="color:#4f6466 ;text-align: center;margin-top: 200px;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight: 400;">لايوجد كشوفات للمرضي</h1>
+        <div fxLayout="row wrap" class="   overflow-scroll  max-h-[635px]  ">
+          <div  *ngFor="let num of filteredData$" data-aos="fade-up">
+            <mat-card class=" mat-elevation-z5 mt-3 mr-3  float-right col" >
+              <mat-card-content >
+                <div class="row">
+                  <div class="col-6">
+                    <div class="h2">
+                     <span> الاسم</span>
+                     <h1>{{num.name}}</h1>
+                    </div>
+                    <div class="h2">
+                      <span> نوع الكشف</span>
+                      <h1>{{num.examination_type}}</h1>
+                    </div>
+                    <div class="h2">
+                      <span>تاريخ الحجز</span>
+                      <h1>{{num.date | date:'yyyy-MM-dd'}}</h1>
+                    </div>
+
+                   </div>
+                   <div class="col text-right">
+                    <div class="h2">
+                      <span>رقم التليفون</span>
+                      <h1>{{num.phone_number}}</h1>
+                    </div>
+                    <div class="h2">
+                      <span>سعر الكشف</span>
+                      <h1 class="mr-4">ج {{num.price}}</h1>
+                    </div>
+                    <div class="h2">
+                      <span>رقم المريض </span>
+                      <h1 class="mr-5">{{num.number}}</h1>
+                    </div>
+
+                  </div>
+                 </div>
+                <button mat-raised-button  type="button"  class=" btns"   (click)="addPrescriptions(num.patient_id , num.examination_id)"> اضافة روشتة </button>
+
+              </mat-card-content >
+            </mat-card>
+
+
+          </div>
+
+        </div>
+
+
+
+
+      </div>
+  </mat-card-content>
+</mat-card>
+

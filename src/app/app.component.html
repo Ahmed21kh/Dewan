@@ -1,0 +1,140 @@
+<nz-sider
+  class="menu-sidebar"
+  [nzCollapsedWidth]="100"
+  nzWidth="232px"
+  [(nzCollapsed)]="isCollapsed"
+  [nzTrigger]="null"
+  [nzCollapsed]="true"
+  *ngIf="!islogin"
+>
+  <mat-list>
+    <div>
+      <button
+        class="logout p-1 float-right absolute right-1 top-1"
+        style="
+          background: #eee;
+          padding: 5px;
+          color: #4f6466;
+          border: 1px solid #4f6466;
+        "
+        nz-popconfirm
+        nzPopconfirmTitle="هل انت متأكد من تسجيل الخروج؟"
+        (nzOnConfirm)="logout()"
+        nzPopconfirmPlacement="leftTop"
+        nz-button
+      >
+        تسجيل الخروج
+      </button>
+    </div>
+    <img
+      (click)="isCollapsed = !isCollapsed"
+      class="logo mt-5"
+      src="assets/logo.png "
+      alt=""
+    />
+    <!-- <h1 class="col top-[-50px]">{{Role}}</h1> -->
+    <mat-list-item
+      routerLinkActive=" active"
+      *ngIf="nurse"
+      routerLink="/nurse/add-patient"
+      matTooltip="طلب حجز"
+      [matTooltipClass]="isCollapsed ? 'example-tooltip-uppercase' : 'display'"
+      matTooltipPosition="left"
+    >
+      <div class="sidebar-text">
+        <img class="icon" src="assets/booking.png " alt="" />
+        <h1 *ngIf="isCollapsed == false">طلب حجز</h1>
+      </div>
+    </mat-list-item>
+    <mat-list-item
+      routerLinkActive=" active"
+      *ngIf="nurse"
+      routerLink="/nurse/record-bookings"
+      matTooltip="سجل الحجوزات"
+      [matTooltipClass]="isCollapsed ? 'example-tooltip-uppercase' : 'display'"
+      matTooltipPosition="left"
+    >
+      <div class="sidebar-text">
+        <img class="icon" src="assets/add bill.png " alt="" />
+        <h1 *ngIf="isCollapsed == false">سجل الحجوزات</h1>
+      </div>
+    </mat-list-item>
+    <mat-list-item
+      routerLinkActive=" active"
+      *ngIf="doctor"
+      routerLink="/doctors/bookings"
+      matTooltip="الحجوزات"
+      [matTooltipClass]="isCollapsed ? 'example-tooltip-uppercase' : 'display'"
+      matTooltipPosition="left"
+    >
+      <div class="sidebar-text">
+        <img class="icon" src="assets/booking.png " alt="" />
+        <h1 *ngIf="isCollapsed == false">الحجوزات</h1>
+      </div>
+    </mat-list-item>
+    <mat-list-item
+      routerLinkActive=" active"
+      *ngIf="doctor"
+      routerLink="/doctors/medical-history"
+      matTooltip="التاريخ المرضي"
+      [matTooltipClass]="isCollapsed ? 'example-tooltip-uppercase' : 'display'"
+      matTooltipPosition="left"
+    >
+      <div class="sidebar-text">
+        <img class="icon" src="assets/Icon metro-profile.png " alt="" />
+        <h1 *ngIf="isCollapsed == false">التاريخ المرضي</h1>
+      </div>
+    </mat-list-item>
+    <mat-list-item
+      routerLinkActive=" active"
+      *ngIf="doctor"
+      routerLink="/doctors/reports"
+      matTooltip="التقارير"
+      [matTooltipClass]="isCollapsed ? 'example-tooltip-uppercase' : 'display'"
+      matTooltipPosition="left"
+    >
+      <div class="sidebar-text">
+        <img class="icon" src="assets/Icon awesome-chart-bar.png " alt="" />
+        <h1 *ngIf="isCollapsed == false">التقارير</h1>
+      </div>
+    </mat-list-item>
+    <mat-list-item
+      *ngIf="nurse"
+      routerLinkActive=" active"
+      routerLink="nurse/accounts"
+      matTooltip="الحسابات"
+      [matTooltipClass]="isCollapsed ? 'example-tooltip-uppercase' : 'display'"
+      matTooltipPosition="left"
+    >
+      <div class="sidebar-text">
+        <img class="icon" src="assets/Icon awesome-list-alt.png " alt="" />
+        <h1 *ngIf="isCollapsed == false">الحسابات</h1>
+      </div>
+    </mat-list-item>
+    <mat-list-item
+      routerLinkActive=" active"
+      *ngIf="doctor"
+      routerLink="doctors/accounts"
+      matTooltip="الحسابات"
+      [matTooltipClass]="isCollapsed ? 'example-tooltip-uppercase' : 'display'"
+      matTooltipPosition="left"
+    >
+      <div class="sidebar-text">
+        <img class="icon" src="assets/Icon awesome-list-alt.png " alt="" />
+        <h1 *ngIf="isCollapsed == false">الحسابات</h1>
+      </div>
+    </mat-list-item>
+  </mat-list>
+</nz-sider>
+<nz-content>
+  <!-- <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+          <span class="trigger"
+             nz-icon
+             [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+          ></span>
+      </span> -->
+  <div class="content">
+    <div class="overlay"></div>
+    <router-outlet></router-outlet>
+  </div>
+</nz-content>

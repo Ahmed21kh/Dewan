@@ -1,0 +1,80 @@
+.title-card{
+  position: relative;
+  width: 780px;
+  background: #4f6466;
+  border-radius: 10px;
+  padding: 9px;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  margin-top: 100px;
+  box-shadow: -4px -4px 11px #b0adad,
+  4px 2px 18px #a8a8a8;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+.title-card h1{
+  margin-top: 14px;
+  margin-right: 16px;
+  float: right;
+  color: white;
+  font-size: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+
+}
+mat-card{
+  width: 780px;
+  height: 55%;
+  margin: auto;
+  padding: 24px;
+  align-items: center;
+  background: #eee;
+  border-bottom: 13px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 400;
+
+}
+.h2{
+  font-size: 22px;
+  padding: 18px 32px 0px 22px;
+  text-align: right;
+  color: #4f6466;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+
+}
+mat-card button.btn {
+  background: #4f6466;
+  margin-right: 10px;
+  color: #ffffff;
+  font-size: 18px;
+  left: 50px;
+  top: 20px;
+  padding: 0px 32px ;
+  border-radius: 13px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+
+}
+
+mat-card button.edit {
+ border: 1px solid #4f6466;
+ font-size: 18px;
+ left: 50px;
+ top: 20px;
+ padding: 0 32px ;
+ border-radius: 13px;
+ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+
+}
+mat-card h1 {
+  color: black;
+  font-size: 18px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 400;
+  margin-top: 10px;
+
+}

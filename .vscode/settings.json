@@ -1,0 +1,4 @@
+{
+    "angular.disableAutomaticNgcc": false,
+    "angular.suggest.includeCompletionsWithSnippetText": false
+}

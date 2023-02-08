@@ -1,0 +1,431 @@
+<mat-card>
+  <div class="col spinner d-flex  " >
+    <mat-spinner *ngIf="loading" class=" d-flex " style="margin: 200px auto;"></mat-spinner>
+  </div>
+  <mat-card-content *ngIf="!loading">
+    <div class="info pb-4 mt-4">
+
+      <mat-card class="mat-elevation-z5 ">
+        <mat-card-header class="title-card">
+          <div class="card-text text-right">
+            <span style="font-size: 18px;">تفاصيل المريض</span>
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="row" *ngIf="!loading">
+            <div class="mr-5 px-3">
+              <div class="info-text">
+                <span class=" text-lg " style="color:#4f6466 ;"> الاسم</span>
+                <h2>{{PatientData.name}}</h2>
+              </div>
+            </div>
+
+            <div class=" mr-5 px-3">
+              <div class="info-text">
+                <span class=" text-lg " style="color:#4f6466 ;">رقم التليفون</span>
+                <h2>{{PatientData.phone_Number}}</h2>
+              </div>
+            </div>
+            <div class="mr-5 px-3">
+              <div class="info-text">
+                <span class=" text-lg " style="color:#4f6466 ;"> السن</span>
+                <h2>{{PatientData.age}}</h2>
+              </div>
+            </div>
+            <div class="mr-5 px-3">
+              <div class="info-text">
+                <span class=" text-lg " style="color:#4f6466 ;"> عدد الزيارات </span>
+                <h2 class=" text-center">{{PatientData.visits}}</h2>
+              </div>
+            </div>
+            <div class="mr-5 px-3" *ngIf=" addPrescription" >
+              <div class="info-text">
+                <span class=" text-lg " style="color:#4f6466 ;"> محول من</span>
+                <h2 class=" text-center">دكتور/ {{PatientData.forward_by}}</h2>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+
+      </mat-card>
+    </div>
+    <div class="content ">
+      <div  class=" row">
+          <mat-card class="mat-elevation-z5 mt-3  float-right mr-3">
+            <mat-card-header class="title-card ">
+              <div class="card-text ">
+                <span class="text-right" style="font-size: 18px;"> التحاليل</span>
+              </div>
+              <a href="{{Url}}/api/medical_history/files/download_all/{{clinicId}}/{{PatientData.id}}/medical analysis" class=" mr-auto mt-[-8px]" >
+                <i class="fa fa-download mr-auto  ml-5  cursor-pointer text-white"  aria-hidden="true"> <small class="top-8 mr-[-29px] absolute " > تحميل الكل</small></i>
+              </a>
+               <i class="fa fa-plus-circle cursor-pointer  ml-3" *ngIf=" addPrescription"  style="font-size:25px  ; color:white;" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" (click)="showMedicalAnalysisModal()"></i>
+
+            </mat-card-header>
+            <mat-card-content class=" overflow-scroll h-[360px] max-h-[360px]  ">
+
+              <div *ngIf="!loading" >
+                <h2 class=" d-flex justify-center items-center content-center " style="color:#556364 ;font-size: 18px;margin-top: 100px;" *ngIf="medicalAnalysis.length === 0">لايوجد تحاليل للمريض</h2>
+                <div *ngFor="let item of medicalAnalysis">
+                  <div class="diagonsis mat-elevation-z5">
+                    <img class=" m-1" src="assets/Icon awesome-file-pdf.png" alt="" *ngIf="item.doc_type=='.pdf';else pngType"  />
+                    <ng-template #pngType>
+                      <img class=" m-1" src="assets/Icon awesome-file-image.png" alt="" />
+                    </ng-template>
+
+                    <span class=" mr-2 text-right w-[170px] overflow-hidden whitespace-nowrap text-ellipsis" style="direction:rtl ;"> {{item.name}}<br> <small class=" text-right d-flex ml-auto">{{item.date | date:'yyyy-MM-dd'}}</small></span>
+                    <span class="d-flex mr-auto ">
+                      <span class="" (click)="deleteFileMedicalAnalysis(item.id)" ><i class="fa fa-trash fa-lg ml-2 mt-3 cursor-pointer" data-toggle="modal" data-target="#example" style="color:rgb(189, 23, 23) ;" aria-hidden="true"></i></span>
+                      <a href="{{Url}}/api/medical_history/files/download/{{clinicId}}/{{item.id}}/medical analysis" class=" ml-4 mr-auto">
+                        <i class="fa fa-download   mt-[10px] mr-[20px] cursor-pointer " style="color:#4f6466 ;" aria-hidden="true" > </i>
+                        <small class=" d-flex mr-[20px] ml-[-7px] mt-[-7px] cursor-pointer" style="color:#4f6466 ;" > تحميل </small>
+                      </a>
+                    </span>
+
+                  </div>
+                  <!-- <div class="diagonsis mat-elevation-z5">
+                    <img class=" m-1" src="assets/Icon awesome-file-image.png" alt="" />
+                    <span class="  mr-2"> تحليل دم <br> <small class="">10/10/2022</small></span>
+                    <i class="fa fa-download mr-auto mt-[-10px] cursor-pointer " style="color:#4f6466 ;" aria-hidden="true"> </i>
+                    <small class=" d-flex ml-2 mt-3 mr-[-30px]" style="color:#4f6466 ;"> تحميل الكل</small>
+                  </div> -->
+                </div>
+              </div>
+
+            </mat-card-content>
+
+          </mat-card>
+          <mat-card class="mat-elevation-z5 mt-3  float-right mr-3">
+            <mat-card-header class="title-card">
+              <div class="card-text text-right">
+                <span style="font-size: 18px;">تقارير الاشعة</span>
+              </div>
+              <a href="{{Url}}/api/medical_history/files/download_all/{{clinicId}}/{{PatientData.id}}/x-ray report" class=" mr-auto mt-[-8px]">
+                <i class="fa fa-download mr-auto  ml-5 mt-[-10px] cursor-pointer text-white" aria-hidden="true"> <small class="top-8 mr-[-29px] absolute" > تحميل الكل</small></i>
+              </a>
+              <i class="fa fa-plus-circle cursor-pointer  ml-3" *ngIf=" addPrescription" style="font-size:25px  ; color:white;" aria-hidden="true" data-toggle="modal" data-target="#exampleModal"  (click)="showXRayModal()" ></i>
+            </mat-card-header>
+            <mat-card-content class=" overflow-scroll h-[360px] max-h-[360px]">
+              <div *ngIf="!loading">
+                <h2 class=" d-flex justify-center items-center content-center " style="color:#556364 ;font-size: 18px;margin-top: 100px;" *ngIf="Xray.length === 0">لايوجد اشعة للمريض</h2>
+                <div *ngFor="let item of Xray" >
+                  <div class="diagonsis mat-elevation-z5 overflow-hidden">
+                    <img class=" m-1" src="assets/Icon awesome-file-pdf.png" alt="" *ngIf="item.doc_type=='.pdf';else pngType"  />
+                    <ng-template #pngType>
+                      <img class=" m-1" src="assets/Icon awesome-file-image.png" alt="" />
+                    </ng-template>
+
+                    <span class=" mr-2 text-right w-[170px] overflow-hidden whitespace-nowrap text-ellipsis" style="direction:rtl ;"> {{item.name}}<br> <small class=" text-right d-flex ml-auto">{{item.date | date:'yyyy-MM-dd'}}</small></span>
+
+                    <span class="d-flex mr-auto ml-4 ">
+                      <span class="cursor-pointer" (click)="deleteFileXray(item.id)"><i class="fa fa-trash fa-lg mt-3" style="color:rgb(189, 23, 23) ;" aria-hidden="true" data-toggle="modal" data-target="#example" ></i></span>
+                      <a href="{{Url}}/api/medical_history/files/download/{{clinicId}}/{{item.id}}/x-ray report" class="">
+                        <i class="fa fa-download  mt-[10px] mr-[20px] cursor-pointer " style="color:#4f6466 ;" aria-hidden="true" > </i>
+                        <small class=" d-flex mr-[20px] ml-[-7px] mt-[-7px] cursor-pointer" style="color:#4f6466 ;" > تحميل </small>
+                      </a>
+                    </span>
+
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+
+          </mat-card>
+          <mat-card class="mat-elevation-z5 mt-3  float-right mr-3">
+            <mat-card-header class="title-card">
+              <div class="card-text text-right">
+                <span style="font-size: 18px;">الروشتة</span>
+              </div>
+              <a href="{{Url}}/api/medical_history/files/download_all/{{clinicId}}/{{PatientData.id}}/prescription" class=" mr-auto mt-[-8px]">
+                <i class="fa fa-download mr-auto  ml-5 mt-[-10px] cursor-pointer text-white" aria-hidden="true"> <small class="top-8 mr-[-29px]  absolute" > تحميل الكل</small></i>
+              </a>
+              <i class="fa fa-plus-circle cursor-pointer  ml-3" *ngIf=" addPrescription" style="font-size:25px  ; color:white;" aria-hidden="true" data-toggle="modal" data-target="#exampleModal"  (click)="showPrescriptionModal()"></i>
+            </mat-card-header>
+            <mat-card-content class=" overflow-scroll h-[360px] max-h-[360px]">
+
+              <div *ngIf="!loading">
+                <h2 class=" d-flex justify-center items-center content-center " style="color:#556364 ;font-size: 18px;margin-top: 100px;" *ngIf="Prescription.length === 0">لايوجد روشتة للمريض</h2>
+                <div *ngFor="let item of Prescription" >
+                  <div class="diagonsis mat-elevation-z5">
+                    <img class=" m-1" src="assets/Icon awesome-file-pdf.png" alt="" *ngIf="item.doc_type=='.pdf';else pngType"  />
+                    <ng-template #pngType>
+                      <img class=" m-1" src="assets/Icon awesome-file-image.png" alt="" />
+                    </ng-template>
+
+                    <span class=" mr-2 text-right w-[170px] overflow-hidden whitespace-nowrap text-ellipsis" style="direction:rtl ;"> {{item.name}}<br> <small class=" text-right d-flex ml-auto">{{item.date | date:'yyyy-MM-dd'}}</small></span>
+                    <span class="d-flex mr-auto ml-4">
+                      <span class="cursor-pointer" (click)="deleteFilePrescription(item.id)"><i class="fa fa-trash fa-lg mt-3" style="color:rgb(189, 23, 23) ;" aria-hidden="true" data-toggle="modal" data-target="#example" ></i></span>
+                      <a href="{{Url}}/api/medical_history/files/download/{{clinicId}}/{{item.id}}/prescription" class="">
+                        <i class="fa fa-download  mt-[10px] mr-[20px] cursor-pointer " style="color:#4f6466 ;" aria-hidden="true"  > </i>
+                        <small class=" d-flex mr-[20px] ml-[-7px] mt-[-7px] cursor-pointer" style="color:#4f6466 ;" > تحميل </small>
+                      </a>
+                    </span>
+
+                  </div>
+                </div>
+
+              </div>
+            </mat-card-content>
+
+          </mat-card>
+          <mat-card class="mat-elevation-z5 mt-3  float-right mr-3">
+            <mat-card-header class="title-card">
+              <div class="card-text text-right">
+                <span style="font-size: 18px;">التشخيص</span>
+
+
+              </div>
+
+                <label
+                  *ngIf="addPrescription"
+                  class=" mr-auto ml-5 mt-[-10px]"
+                  style="background: #4f6466; outline: #4f6466 ;"
+                  nz-checkbox
+                  [(ngModel)]="allChecked"
+                  (ngModelChange)="updateAllChecked()"
+                  [nzIndeterminate]="indeterminate"
+
+                >
+                <span
+                class=" absolute mr-[-34px]"
+                style="color: #ffffff; font-size: 10px; "
+                >
+                تحديدالكل
+                </span>
+                </label>
+
+              <span class=" cursor-pointer " *ngIf="addPrescription" (click)="downloadAllasExel()">
+                <img class=" ml-[30px] w-[20px] mt-[-3px]"   src="assets/Icon simple-microsoftexcel.png" alt="" />
+                <!-- <span class="" style="color: #ffffff; font-size: 15px">تحميل<i class="fa fa-download" aria-hidden="true"></i></span> -->
+                <small class=" d-flex absolute text-white mt-[-2px]">تحميل</small>
+              </span>
+              <a *ngIf="!addPrescription" href="{{Url}}/api/reports/download_all_text/{{clinicId}}/{{patientId}}" class=" mr-auto mt-[-8px]">
+                <i class="fa fa-download mr-auto  ml-5 mt-[-10px] cursor-pointer text-white" aria-hidden="true"> <small class="top-8 mr-[-29px]  absolute" > تحميل الكل</small></i>
+              </a>
+
+              <i class="fa fa-plus-circle cursor-pointer ml-3 " *ngIf="addPrescription" style="font-size:25px  ; color:white;" aria-hidden="true" data-toggle="modal" data-target="#exampleModal" (click)="showDiagoniesModal()"></i>
+            </mat-card-header>
+            <mat-card-content class=" overflow-scroll h-[360px] max-h-[360px]">
+
+              <div *ngIf="!loading">
+                <h2 class=" d-flex justify-center items-center content-center " style="color:#556364 ;font-size: 18px;margin-top: 100px;" *ngIf="Diagnosis.length === 0">لايوجد تشخيص للمريض</h2>
+                <div *ngFor="let item of Diagnosis"  >
+                  <div class="diagonsis mat-elevation-z5 d-flex">
+                    <img class=" m-1" src="assets/Icon ionic-md-document.png" alt="" />
+                    <span class="  mr-2  text-right">{{item.diagnosis_name}}<br> <small class="text-right d-flex ml-auto">{{item.date | date:'yyyy-MM-dd'}}</small></span>
+                    <input *ngIf="addPrescription " type="checkbox" class="form-check-input mr-auto relative d-flex " #checkBox (click)="addDiginosesId(item.id,checkBox)" [checked]="allChecked==true" style="width: 50px;
+                    height: 16px;">
+
+                    <span class="d-flex mr-auto ml-4 mt-[-5px]">
+                      <span class="  mt-[13px] ml-3 cursor-pointer" (click)="getComment(item.id)" data-toggle="modal" data-target="#exampleModal"> <i class="fa fa-pencil fa-lg " style="color:#3679b8 ;" aria-hidden="true"></i></span>
+
+                      <span class="cursor-pointer" (click)="deleteFileDiagnosis(item.id)"><i class="fa fa-trash fa-lg mt-3 mr-1" style="color:rgb(189, 23, 23) ;" aria-hidden="true" data-toggle="modal" data-target="#example" ></i></span>
+                      <a href="{{Url}}/api/reports/download_one_text/{{clinicId}}/{{item.id}}" class="">
+                        <i class="fa fa-download  mt-[10px] mr-[20px] cursor-pointer " style="color:#4f6466 ;" aria-hidden="true"  > </i>
+                        <small class=" d-flex mr-[20px] ml-[-7px] mt-[-7px] cursor-pointer" style="color:#4f6466 ;" > تحميل </small>
+                      </a>
+
+                    </span>
+                  </div>
+                </div>
+
+              </div>
+            </mat-card-content>
+
+          </mat-card>
+        </div>
+
+
+         <!--analysis Modal -->
+            <div class="modal fade "  id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog " [ngStyle]="diagnosis ? {'margin-top': '-85px'} : {'margin-top':'0'} ">
+                <div class="modal-content " *ngIf="!diagnosis ;else diag">
+                  <div class="modal-header" >
+                    <h2>اضافة تحليل جديد</h2>
+                    <button type="button">
+                      <i class="fa fa-times fa-lg" aria-hidden="true" style="color:white ;"  data-dismiss="modal" aria-label="Close"></i>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row pt-4 pb-2 mat-elevation-z5 modalcontent">
+                      <div class="col-3 text-right ">
+                        <div class="info-text ">
+                          <span class=" text-lg" style="color: #4f6466"> الاسم</span>
+                          <h2 class="">{{PatientData.name}}</h2>
+                        </div>
+                      </div>
+                      <div class=" col-3 text-center">
+                        <div class="info-text  ">
+                          <span class=" text-lg" style="color: #4f6466">رقم التليفون</span>
+                          <h2>{{PatientData.phone_Number}}</h2>
+                        </div>
+                      </div>
+                      <div class="col-3 text-center">
+                        <div class="info-text text-center ">
+                          <span class="col text-lg" style="color: #4f6466"> عدد الزيارات</span>
+                          <h2 class="text-center">{{PatientData.visits}}</h2>
+                        </div>
+                      </div>
+                      <div class=" text-center">
+                        <div class="info-text">
+                          <span class=" text-lg" style="color: #4f6466">محول من </span>
+                          <h2>دكتور/ {{PatientData.forward_by}}</h2>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ubload">
+                      <h1  class=" text-center text-lg mt-3" style="color: #4f6466 ; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 400;">ارفع الملف</h1>
+
+                      <ngx-dropzone accept="image/jpeg,image/jpg,image/png,.pdf" (change)="onSelect($event)">
+                        <div *ngIf="files.length === 0">
+                          <img   src="assets/Icon awesome-file-alt.png" class=" m-auto " alt="">
+                         <h2 class=" text-center text-lg " style="color: #4f6466; font-weight: 400;">JPG , PNG , PDF</h2>
+                         <h1  class=" text-center text-lg mt-3" style="color: #4f6466 ; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 400; font-size: 27px;">قم بسحب الملف</h1>
+                        </div>
+                        <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                          <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                        </ngx-dropzone-preview>
+                      </ngx-dropzone>
+                    </div>
+
+                    <button mat-raised-button class="applay" data-dismiss="modal" aria-label="Close" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 400;" (click)="upload(patientId,type,files)">اختر الملف</button>
+                  </div>
+                </div>
+                <ng-template #diag>
+                  <div class="modal-content ">
+                    <div class="modal-header" >
+                      <h2>اضافة تشخيص جديد</h2>
+                      <button type="button">
+                        <i class="fa fa-times fa-lg" aria-hidden="true" style="color:white ;"  data-dismiss="modal" aria-label="Close"></i>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row pt-4 pb-2 mat-elevation-z5 modalcontent">
+                        <div class="col-4 text-right ">
+                          <div class="info-text ">
+                            <span class=" text-lg" style="color: #4f6466"> الاسم</span>
+                            <h2 class="">{{PatientData.name}}</h2>
+                          </div>
+                        </div>
+                        <div class="col-3 text-right">
+                          <div class="info-text  ">
+                            <span class=" text-lg" style="color: #4f6466">رقم التليفون</span>
+                            <h2>{{PatientData.phone_Number}}</h2>
+                          </div>
+                        </div>
+                        <div class="col-3 text-right">
+                          <div class="info-text  ">
+                            <span class="col text-lg" style="color: #4f6466"> عدد الزيارات</span>
+                            <h2 class="text-center">{{PatientData.visits}}</h2>
+                          </div>
+                        </div>
+                        <div class=" text-right">
+                          <div class="info-text">
+                            <span class=" text-lg" style="color: #4f6466">محول من </span>
+                            <h2>{{PatientData.forward_by}}</h2>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="diagnosisText p-1 px-4" >
+                        <div class="form-group text-right" >
+                          <h2 class="mr-2 mt-1 mb-1" style="font-size: 19px; color: #4f6466 ; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 400;"> اسم التشخيص</h2>
+                          <textarea [(ngModel)]="diagonName"  name="forwardTo" class="form-control rounded-0 text-right text-2xl" style="border:1px solid #4f6466;color: #4f6466;background: #eee; font-size: 20px;" id="exampleFormControlTextarea1" placeholder=" اسم التشخيص" rows="1"></textarea>
+                          <h2 class="mr-2 mt-2 mb-1" style="font-size: 19px; color: #4f6466 ; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 400;">تشخيص</h2>
+                          <textarea [(ngModel)]="diagon"  name="diagon" class="form-control rounded-0 text-right text-2xl" style="border:2px dashed #4f6466; color: #4f6466;background: #eee;font-size: 20px;" id="exampleFormControlTextarea1" placeholder="من فضلك ادخل التشخيص " rows="4"></textarea>
+
+                          <h2 class="mr-2 mt-2 mb-1" style="font-size: 19px; color: #4f6466 ; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 400;">تعليق</h2>
+                          <textarea [(ngModel)]="comment"  name="comment" class="form-control rounded-0 text-right text-2xl" style="border:2px dashed #4f6466;color: #4f6466;background: #eee;font-size: 20px;" id="exampleFormControlTextarea1" placeholder="من فضلك ادخل التعليق " rows="2"></textarea>
+
+                          <h2 class="mr-2 mt-2 mb-1" style="font-size: 19px; color: #4f6466 ; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 400;">محول الي</h2>
+                          <textarea [(ngModel)]="forwardTo"  name="forwardTo" class="form-control rounded-0 text-right text-2xl" style="border:1px solid #4f6466;color: #4f6466;background: #eee; font-size: 20px;" id="exampleFormControlTextarea1" placeholder="محول الي" rows="1"></textarea>
+                        </div>
+                      </div>
+
+                      <button *ngIf="!isUpdateComment" mat-raised-button class="applay d-flex float-left mr-auto ml-3 mt-0" data-dismiss="modal" aria-label="Close" (click)="addDiagnosis(patientId,ExaminId)">اضافة التشخيص</button>
+                      <button *ngIf="isUpdateComment" mat-raised-button class="applay d-flex float-left mr-auto ml-3 mt-0" data-dismiss="modal" aria-label="Close" (click)="updateComment(diagonsisComment.id)" >اضافة التشخيص</button>
+                    </div>
+                  </div>
+                </ng-template>
+
+              </div>
+            </div>
+            <!--delete Modal -->
+            <div class="modal fade "  id="example" tabindex="-1" aria-labelledby="example" aria-hidden="true" style="margin-top:-60px ;">
+              <div class="modal-dialog modal-dialog-centered mr-[300px]" >
+                <div class="modal-content py-[20px] h-[160px]" style="background:#eee ;margin-right: 50px;">
+                  <div class="modal-body" style="width:500px !important ;text-align: center;display: flex;justify-content: center;margin: auto;" >
+                   <div>
+                    <h2 *ngIf="!diagnosis" class=" text-center text-2xl mb-3 mt-3" style="font-size:30px ;" >هل تريد حذف الملف !!</h2>
+                    <h2 *ngIf="diagnosis" class=" text-center text-2xl mb-3 mt-3" style="font-size:30px ;" >هل تريد حذف التشخيص !!</h2>
+
+                    <span class=" text-center d-flex items-center justify-center mt-4">
+                      <button *ngIf="!diagnosis" type="button" class="btn btn-danger w-[70px]" (click)="deleteFile(Id,type)" data-dismiss="modal">حذف</button>
+                      <button *ngIf="diagnosis" type="button" class="btn btn-danger w-[70px]" (click)="deleteComment(Id)" data-dismiss="modal">حذف</button>
+                      <button mat-button type="button" class="mr-3" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;font-weight: 400;border: 1px solid #4f6466;" data-dismiss="modal">الغاء</button>
+                    </span>
+                   </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+        <!-- <nz-modal
+        [nzWidth]="700"
+        class="mat-elevation-z5 addPrescrption"
+        [(nzVisible)]="isVisible"
+        nzTitle=" اضافة تحليل جديد"
+        (nzOnCancel)="handleCancel()"
+        (nzOnOk)="handleOk()"
+        *ngIf="addPrescription"
+        >
+        <ng-container *nzModalContent>
+          <div class="row pt-4 pb-2 mat-elevation-z5 modalcontent">
+            <div class="col-3 text-right ">
+              <div class="info-text ">
+                <span class=" text-lg" style="color: #4f6466"> الاسم</span>
+                <h2 class="">{{PatientData.name}}</h2>
+              </div>
+            </div>
+            <div class="col-3 text-right">
+              <div class="info-text  ">
+                <span class=" text-lg" style="color: #4f6466">رقم التليفون</span>
+                <h2>{{PatientData.phone_Number}}</h2>
+              </div>
+            </div>
+            <div class="col-3 text-right">
+              <div class="info-text  ">
+                <span class="col text-lg" style="color: #4f6466"> عدد الزيارات</span>
+                <h2 class="text-center">{{PatientData.visits}}</h2>
+              </div>
+            </div>
+            <div class=" text-right">
+              <div class="info-text">
+                <span class=" text-lg" style="color: #4f6466">محول من </span>
+                <h2>{{PatientData.forwarded_by}}</h2>
+              </div>
+            </div>
+          </div>
+          <div class="ubload">
+            <h1  class=" text-center text-lg mt-3" style="color: #4f6466 ; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 400;">ارفع الملف</h1>
+
+            <ngx-dropzone accept="image/jpeg,image/jpg,image/png,.pdf" (change)="onSelect($event)">
+              <div *ngIf="files.length === 0">
+                <img   src="assets/Icon awesome-file-alt.png" class=" m-auto " alt="">
+               <h2 class=" text-center text-lg " style="color: #4f6466; font-weight: 400;">JPG , PNG , PDF</h2>
+               <h1  class=" text-center text-lg mt-3" style="color: #4f6466 ; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 400; font-size: 27px;">قم بسحب الملف</h1>
+              </div>
+              <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+              </ngx-dropzone-preview>
+            </ngx-dropzone>
+          </div>
+
+          <button mat-raised-button class="applay" (click)="upload(patientId,type,files[0])">اختر الملف</button>
+
+        </ng-container>
+      </nz-modal> -->
+
+      </div>
+  </mat-card-content>
+</mat-card>

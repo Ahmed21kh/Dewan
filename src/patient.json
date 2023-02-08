@@ -1,0 +1,52 @@
+{
+  "Patient_Table": [
+    {
+      "age": 22,
+      "code": 1,
+      "forwarded_by": "",
+      "name": "Ahmed",
+      "phone_Number": "01020396280",
+      "id": 1
+    },
+    {
+      "age": 22,
+      "code": 1,
+      "forwarded_by": "",
+      "name": "Mohamed",
+      "phone_Number": "01020396280",
+      "id": 2
+    }
+  ],
+  "patients_names": [
+    {
+      "id": 1,
+      "name": "Hosam Aboabla",
+      "phone_Number": "01283230373"
+    },
+    {
+      "id": 2,
+      "name": "Hosam Aboabla",
+      "phone_Number": "01283230373"
+    },
+    {
+      "id": 3,
+      "name": "Hosam Aboabla",
+      "phone_Number": "01283230373"
+    },
+    {
+      "id": 4,
+      "name": "Yousef",
+      "phone_Number": "01283230373"
+    },
+    {
+      "id": 5,
+      "name": "Mostafa",
+      "phone_Number": "01283230373"
+    },
+    {
+      "id": 6,
+      "name": "mostafa",
+      "phone_Number": "01283230373"
+    }
+  ]
+}

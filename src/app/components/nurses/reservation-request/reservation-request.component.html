@@ -1,0 +1,420 @@
+<div class=" d-flex justify-center  h-full items-center">
+  <div class="container">
+    <div class="title-card">
+      <i class="bx bxs-calendar text-4xl text-white float-right mr-2"></i>
+      <h1>الحجز</h1>
+    </div>
+    <mat-card class="mat-elevation-z3">
+      <mat-card-content>
+        <div class="buttons">
+          <button
+            mat-raised-button
+            class="px-4 mat-elevation-z5"
+            [ngClass]="registered ? 'active' : 'btn'"
+            (click)="isRegistered()"
+          >
+            <i class="bx bx-user-check text-4xl"></i>
+            مريض مسجل
+          </button>
+          <button
+            mat-raised-button
+            class="px-4 mat-elevation-z3"
+            [ngClass]="!registered ? 'active' : 'btn'"
+            (click)="getCode()"
+          >
+            <i class="bx bx-user-plus text-4xl"></i>
+            مريض جديد
+          </button>
+        </div>
+  
+        <!-- Form  for patient-->
+  
+        <form
+          class="mt-5 ml-[70px]"
+          [formGroup]="bookingForm"
+          (ngSubmit)="mySubmit()"
+          *ngIf="!registered; else regist"
+        >
+          <div class="row">
+            <div class="col-lg-4 col-md-4">
+              <mat-form-field  class=" text-right w-[300px]" style="direction:ltr ;font-size: 20px;" appearance="outline">
+                <mat-label for="username">الاسم</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight:400;direction: rtl;"
+                  formControlName="name"
+                  [value]="resiveData.name"
+                  placeholder="ادخل الاسم ثلاثي"
+                />
+                
+                  <mat-error *ngIf="f['name']?.errors?.['required']  ">
+                    برجاء ادخال الاسم
+                  </mat-error>
+                  <mat-error *ngIf="f['name']?.errors?.['regName']  ">
+                   !! برجاء ادخال الاسم بشكل صحيح
+                  </mat-error>
+              </mat-form-field >
+  
+              <mat-form-field  class=" text-right w-[300px]" style="direction:ltr ;font-size: 20px;" appearance="outline">
+                <mat-label for="username">كود المريض</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight:400;direction: rtl;"
+                  formControlName="code"
+                  [value]="patientId"
+                  [value]="code$"
+                  placeholder="كود المريض"
+                />
+              </mat-form-field >
+  
+              <mat-form-field appearance="outline" class=" text-right" style=";direction:ltr ;font-size: 20px;width:300px;">
+                <!-- <nz-date-picker [ngModel]="Date"   nzPlaceHolder="تاريخ الكشف"></nz-date-picker> -->
+                <mat-label for="username">تاريخ الكشف</mat-label>
+                <input
+                  matInput
+                  style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight:400;direction: rtl;"
+                  formControlName="date"
+                  placeholder="تاريخ الكشف"
+                  name="newDate"
+                  [matDatepicker]="picker"
+                  [(ngModel)]="newDate"
+                />
+                <mat-datepicker-toggle matSuffix [for]="picker" class=" d-flex absolute left-[-280px] mt-[10px]"> 
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                
+                  <mat-error *ngIf="f['date']?.errors?.['required']  ">
+                    برجاء ادخال التاريخ
+                  </mat-error>
+             
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4 col-md-4">
+              <mat-form-field  class=" text-right w-[300px]" style="direction:ltr ;font-size: 20px;" appearance="outline" >
+                <mat-label for="username">رقم التليفون</mat-label>
+                <input
+                  type="tel"
+                  *ngIf="!registered"
+                  matInput
+                  style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight:400;direction: rtl;"
+                  formControlName="phone_number"
+                  placeholder="رقم التليفون"
+                  [value]="resiveData.phone_number"
+                  maxlength="11"
+                />
+    
+                  <mat-error *ngIf="f['phone_number']?.errors?.['required']">
+                    برجاء ادخال رقم التليفون
+                  </mat-error>
+                  <mat-error *ngIf="f['phone_number']?.errors?.['minlength']||f['phone_number']?.errors?.['pattern']">
+                    برجاء ادخال الرقم بشكل صحيح
+                  </mat-error>
+                
+              </mat-form-field >
+  
+              <mat-form-field  appearance="outline" class=" text-right" style=";direction:ltr ;font-size: 20px;width:300px;">
+                <mat-label for="username">نوع الكشف</mat-label>
+                <mat-select
+                  type="text"
+                  style="direction:rtl ;display: flex;align-items: center;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight: 400; height: 35px;"
+                  formControlName="examination_type"
+                  [value]="resiveData.examination_type"
+                  placeholder="نوع الكشف"
+                  [(value)]="selected"
+                >
+                  <mat-option class="text-right" value="كشف جديد">
+                    كشف جديد
+                  </mat-option>
+                  <mat-option class="text-right" value="اعادة كشف">
+                    اعادة كشف
+                  </mat-option>
+                  <mat-option class="text-right" value="متابعة">
+                    متابعة
+                  </mat-option>
+                </mat-select>
+               
+                  <mat-error
+                    *ngIf="f['examination_type']?.errors?.['required']  "
+                  >
+                    برجاء ادخال نوع الكشف
+                  </mat-error>
+                
+              </mat-form-field>
+  
+              <mat-form-field  class=" text-right w-[300px]" style="direction:ltr ;font-size: 20px;" appearance="outline">
+                <mat-label for="username">رقم الكشف</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight:400;direction: rtl;"
+                  formControlName="number"
+                  [value]="resiveData.number"
+                  [value]="patientNum"
+                  placeholder="رقم الكشف"
+                />
+           
+              </mat-form-field >
+            </div>
+            <div class="col-lg-4 col-md-4">
+              <mat-form-field  class=" text-right w-[300px]" style="direction:ltr ;font-size: 20px;" appearance="outline">
+                <mat-label for="username"> العمر</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight:400;direction: rtl;"
+                  formControlName="age"
+                  [value]="resiveData.age"
+                  placeholder="العمر"
+                />
+  
+                
+                  <mat-error *ngIf="f['age']?.errors?.['required']  ">
+                    برجاء ادخال العمر
+                  </mat-error>
+                  <mat-error *ngIf="f['age']?.errors?.['pattern']  ">
+                    برجاء ادخال العمر بشكل صحيح
+                  </mat-error>
+                
+              </mat-form-field >
+              <mat-form-field  class=" text-right w-[300px]" style="direction:ltr ;font-size: 20px;" appearance="outline">
+                <mat-label for="username"> سعر الكشف</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight:400;direction: rtl;"
+                  formControlName="price"
+                  [value]="resiveData.price"
+                  placeholder="سعر الكشف"
+                />
+                
+                  <mat-error *ngIf="f['price']?.errors?.['required']  ">
+                    برجاء ادخال سعر الكشف
+                  </mat-error>
+                  <mat-error *ngIf="f['price']?.errors?.['pattern']  ">
+                    برجاء ادخال السعر  بشكل صحيح
+                  </mat-error>
+                
+              </mat-form-field >
+              <mat-form-field  class="  text-right w-[300px]" style="direction:ltr ;font-size: 20px;" appearance="outline">
+                <mat-label for="username"> محول من</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight:400;direction: rtl;"
+                  formControlName="forward_by"
+                  [value]="resiveData.forward_by"
+                  placeholder="محول من"
+                />
+                <mat-error *ngIf="f['forward_by']?.errors?.['forwardByName']  ">
+                  !! برجاء ادخال الاسم بشكل صحيح
+                 </mat-error>
+              </mat-form-field >
+            </div>
+          </div>
+          <button class="mt-2" type="submit" mat-raised-button >عرض الحجز</button>
+        </form>
+  
+  
+  
+        <ng-template #regist>
+          <form
+            class="mt-5 ml-[70px]"
+            [formGroup]="registerForm"
+            (ngSubmit)="submit(PatientData.id)"
+          >
+            <div class="row">
+              <div class="col-lg-4 col-md-4">
+                <mat-form-field  appearance="outline" class=" text-right w-[300px] select" style="direction:ltr ;font-size: 20px;" appearance="outline">
+                  <mat-label for="username">الاسم</mat-label>
+                
+                  <!-- <nz-select (nzOnSearch)="getregisterdPatient(selectedValue)" formControlName="name" name="selectedValue" [(ngModel)]="selectedValue" value="selectedValue" nzShowSearch nzAllowClear nzPlaceHolder="Select a person" >
+                    <nz-option  
+                    *ngFor="let item of patientName " 
+                    [nzLabel]="item.name" 
+                    [nzValue]="item.id"
+                     ></nz-option>
+                  </nz-select>
+                  <h2>القيمة : {{selectedValue}}</h2> -->
+                 <input  type="text" [matAutocomplete]="autocompleteTemplateRefId" matInput style="direction:rtl ;" formControlName="name" placeholder="اختر اسم المريض" #query (keyup)="filterName(query.value )" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight:400;">
+                 <mat-error *ngIf="r['name']?.errors?.['required']  ">
+                  برجاء اختيار الاسم
+                </mat-error>
+                 <mat-autocomplete #autocompleteTemplateRefId="matAutocomplete" class=" overflow-scroll overflow-x-hidden max-h-[200px]">
+                
+                    
+                    <mat-option class=" text-right " style="color:#4f6466 ;font-size: 20px;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight: 400;" mat-menu-item *ngFor="let item of filteredData$"  (click)="getregisterdPatient(item.id)">
+                      {{ item.name }}
+                    </mat-option>
+                
+                 </mat-autocomplete>
+
+            
+                  
+                  <!-- <mat-select
+                    placeholder="اختر اسم المريض"
+                    class="px-2 py-[13px] text-right"
+                    style="
+                      background: #fff;
+                      border: 1px solid #4f6466;
+                      border-radius: 15px;
+                      align-items: center;
+                      font-size: 22px;
+                      color: #4f6466;
+                    "
+                    
+                  >
+                    <mat-option
+                      (click)="getregisterdPatient(item.id)"
+                      [value]="item.id"
+                      *ngFor="let item of patientName "
+                    >
+                      {{ item.name }}
+                    </mat-option>
+                  </mat-select> -->
+                </mat-form-field>
+  
+                <mat-form-field class=" text-right w-[300px]" style="direction:ltr ;font-size: 20px;" appearance="outline">
+                <mat-label for="username">كود المريض</mat-label>
+
+                  <input
+                    type="text"
+                    matInput
+                    style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight:400;"
+                    formControlName="code"
+                    [value]="PatientData.code"
+                    placeholder="كود المريض"
+                  />
+                </mat-form-field>
+  
+                <mat-form-field class=" text-right w-[300px]" style="direction:ltr ;font-size: 20px;" appearance="outline">
+                <mat-label for="username">تاريخ الكشف</mat-label>
+
+              <input
+                matInput
+                formControlName="date"
+                style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight:400;"
+                placeholder="تاريخ الكشف"
+                [matDatepicker]="picker"
+                [(ngModel)]="newDate"
+              />
+              
+                <mat-error *ngIf="r['date']?.errors?.['required']  ">
+                  برجاء ادخال التاريخ
+                </mat-error>
+              <mat-datepicker-toggle matSuffix [for]="picker" class=" d-flex absolute left-[-280px] mt-[15px]">
+                <!-- <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon> -->
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+              </div>
+              <div class="col-lg-4 col-md-4">
+                <mat-form-field class=" text-right w-[300px]" style="direction:ltr ;font-size: 20px;" appearance="outline">
+                <mat-label for="username">رقم التليفون</mat-label>
+
+                  <input
+                    type="text"
+                    matInput
+                    style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight:400;"
+                    formControlName="phone_number"
+                    [value]="PatientData.phone_number"
+                    placeholder="رقم التليفون"
+                  />
+                </mat-form-field>
+  
+                <mat-form-field class=" text-right w-[300px]" style="direction:ltr ;font-size: 20px;" appearance="outline">
+                <mat-label for="username">نوع الكشف</mat-label>
+
+              <mat-select
+                type="text"
+                class=" text-right "
+                style="direction:rtl ;display: flex;align-items: center;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight: 400; height: 35px;"
+                formControlName="examination_type"
+                placeholder="نوع الكشف"
+                [(value)]="selected"
+              >
+                <mat-option class="text-right" value="كشف جديد"
+                  >كشف جديد</mat-option
+                >
+                <mat-option class="text-right" value="اعادة كشف">
+                  اعادة كشف</mat-option
+                >
+                <mat-option class="text-right" value="متابعة"
+                  >متابعة
+                </mat-option>
+              </mat-select>
+             
+                <mat-error
+                  *ngIf="r['examination_type']?.errors?.['required']  "
+                >
+                  برجاء ادخال نوع الكشف
+                </mat-error>
+
+            </mat-form-field>
+  
+                <mat-form-field class=" text-right w-[300px]" style="direction:ltr ;font-size: 20px;" appearance="outline">
+                <mat-label for="username">رقم الكشف</mat-label>
+
+              <input
+                type="text"
+                matInput
+                style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight:400;"
+                formControlName="number"
+                placeholder="رقم الكشف"
+                [value]="patientNum"
+              />
+             
+            </mat-form-field>
+              </div>
+              <div class="col-lg-4 col-md-4">
+                <mat-form-field class=" text-right w-[300px]" style="direction:ltr ;font-size: 20px;" appearance="outline">
+                <mat-label for="username"> العمر</mat-label>
+
+                  <input
+                    type="text"
+                    matInput
+                    style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight:400;"
+                    formControlName="age"
+                    [value]="PatientData.age"
+                    placeholder="العمر"
+                  />
+                </mat-form-field>
+                <mat-form-field class=" text-right w-[300px]" style="direction:ltr ;font-size: 20px;" appearance="outline">
+                <mat-label for="username"> سعر الكشف</mat-label>
+
+              <input
+                type="text"
+                matInput
+                style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight:400;direction: rtl;"
+                formControlName="price"
+                placeholder="سعر الكشف"
+              />
+            
+                <mat-error *ngIf="r['price']?.errors?.['required']  ">
+                  برجاء ادخال سعر الكشف
+                </mat-error>
+     
+            </mat-form-field>
+                <mat-form-field class=" text-right w-[300px]" style="direction:ltr ;font-size: 20px;" appearance="outline">
+                <mat-label for="username"> محول من</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight:400;direction: rtl;"
+                    formControlName="forward_by"
+                    placeholder="محول من"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <button class="mt-2" type="button" mat-raised-button (click)="submit(patientTd)">
+              عرض الحجز
+            </button>
+          </form>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
+</div>

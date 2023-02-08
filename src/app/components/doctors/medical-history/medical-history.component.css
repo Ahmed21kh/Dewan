@@ -1,0 +1,119 @@
+mat-card{
+  position: relative;
+  padding: 18px;
+  /* padding-right: 40px; */
+  align-items: center;
+  background: rgb(223 226 228);
+  margin: 20px;
+  /* border-bottom: 13px; */
+  border-radius: 16px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  height: 95vh;
+  
+}
+
+.input-group{
+  width: 30%;
+  margin-right: 55px;
+  border-radius: 16px;
+  direction: ltr;
+}
+
+.input-group-prepend{
+  border-radius: 16px;
+}
+
+.form-control{
+
+  border-radius:0 12px  12px 0;
+  background: #eee;
+  display: flex;
+  align-items: center;
+}
+
+.input-group-text{
+  background: #4f6466;
+  color: #ffffff;
+  border: none;
+  border-radius: 18px;
+}
+
+.input-filter{
+  display: flex;
+  padding-top: 19px;
+  margin: auto ;
+  /* max-width: 1340px; */
+
+}
+ /* .mat-card-content>:first-child {
+  margin-top: 25px;
+  margin-right: 40px;
+} */
+.content{
+  margin: auto;
+  padding-top:5px;
+  position: relative;
+  /* max-width: 1256px; */
+  overflow-x: hidden;
+  
+  max-width: 1340px;
+
+
+
+}
+/* mat-card-content{
+  margin: auto;
+
+} */
+
+.content mat-card{
+  width: 600px;
+  height: 160px;
+  /* margin-left: 32px; */
+  align-items: center;
+  background: #eee;
+  border-bottom: 13px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+
+}
+.content mat-card .h2{
+  width: 140px;
+  font-size: 20px;
+  padding: 0px 15px;
+  margin:0 2px;
+  text-align: right;
+  color: #4f6466;
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+.content mat-card button.btns {
+  background: #4f6466;
+  color: #ffffff;
+  font-size: 20px;
+  align-items: center;
+  text-align: center;
+  padding: 2px 54px ;
+  border-radius: 9px;
+  bottom: 0;
+  left: 40px;
+}
+
+.content mat-card h1 {
+  width: 200px;
+  margin-top: 6px;
+  margin-bottom: 7px;
+  color: black;
+  font-size: 18px;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 400 !important;
+}
+
+/* mat-select.form-control{
+
+}
+.date
+{
+
+} */
